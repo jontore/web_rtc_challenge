@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The challenge</title>
+</head>
+<body>
+
+  <div class="solution-container">HELLO</div>
+
+  <ul>
+    <li data-order=2>Three</li>
+    <li data-order=1>Two</li>
+    <li data-order=0>One</li>
+  </ul>
+
+  <script type="text/javascript">
+    var currentIndex = 0;
+
+
+    var list = document.querySelector('ul');
+
+    list.addEventListener('click', function (ev) {
+      var order = parseInt(ev.target.dataset.order, 10);
+      if (order === currentIndex) {
+        var text = ev.target.innerText;
+        ev.target.remove();
+        document.querySelector('.solution-container').innerText += ' ' + text;
+        currentIndex++;
+      }
+    });
+
+    var template = '<div class="solution-container">HELLO</div> <ul>
+    <li data-order=2>Three</li>
+    <li data-order=1>Two</li>
+    <li data-order=0>One</li>
+  </ul>';
+    function () {
+
+    };
+
+  </script>
+</body>
+</html>
