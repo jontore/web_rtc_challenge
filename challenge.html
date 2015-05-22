@@ -2,42 +2,108 @@
 <html>
 <head>
   <title>The challenge</title>
+  <script src="bundle.js"></script>
 </head>
 <body>
 
-  <div class="solution-container">HELLO</div>
+<div id="stage">
+</div>
 
-  <ul>
-    <li data-order=2>Three</li>
-    <li data-order=1>Two</li>
-    <li data-order=0>One</li>
-  </ul>
+<ol id="result">
+
+<ol>
 
   <script type="text/javascript">
-    var currentIndex = 0;
 
+    var template = '<div class="solution-container-0"></div> <ul>' +
+      '<li data-order=0 data-group=0>one</li>' +
+      '<li data-order=1 data-group=0>Two</li>' +
+      '<li data-order=2 data-group=0>Three</li>' +
+    '</ul>'+
 
-    var list = document.querySelector('ul');
+    '<div class="solution-container-1"></div> <ul>' +
+      '<li data-order=1 data-group=1>Two</li>' +
+      '<li data-order=0 data-group=1>one</li>' +
+      '<li data-order=2 data-group=1>Three</li>' +
+    '</ul>'+
 
-    list.addEventListener('click', function (ev) {
-      var order = parseInt(ev.target.dataset.order, 10);
-      if (order === currentIndex) {
-        var text = ev.target.innerText;
-        ev.target.remove();
-        document.querySelector('.solution-container').innerText += ' ' + text;
-        currentIndex++;
-      }
-    });
+    '<div class="solution-container-2"></div> <ul>' +
+      '<li data-order=1 data-group=2>Two</li>' +
+      '<li data-order=0 data-group=2>one</li>' +
+      '<li data-order=2 data-group=2>Three</li>' +
+    '</ul>'+
 
-    var template = '<div class="solution-container">HELLO</div> <ul>
-    <li data-order=2>Three</li>
-    <li data-order=1>Two</li>
-    <li data-order=0>One</li>
-  </ul>';
-    function () {
+    '<div class="solution-container-3"></div> <ul>' +
+      '<li data-order=1 data-group=3>Two</li>' +
+      '<li data-order=2 data-group=3>Three</li>' +
+      '<li data-order=0 data-group=3>one</li>' +
+    '</ul>'+
 
-    };
+    '<div class="solution-container-4"></div> <ul>' +
+      '<li data-order=1 data-group=4>Two</li>' +
+      '<li data-order=2 data-group=4>Three</li>' +
+      '<li data-order=0 data-group=4>one</li>' +
+    '</ul>';
+
+    document.getElementById('stage').innerHTML = template;
+
+    function init() {
+      var currentIndex = [0, 0, 0, 0, 0];
+      var stage = document.getElementById('stage');
+
+      var checkAndUpdate = function (data) {
+        var group = data.group;
+        var order = data.order;
+        if (order === currentIndex[group]) {
+          data.target.remove();
+          var text = data.text;
+          document.querySelector('.solution-container-'+group).innerText += ' ' + text;
+          currentIndex[group]++;
+
+          if (currentIndex[group] === 3) {
+            sendMessage('I finished Group: '+ group);
+          }
+
+          console.log(currentIndex);
+          var flag = currentIndex.every(function (val) {
+            return (val === 3);
+          });
+          if(flag) {
+            sendMessage('I finished.. U LOSER...!');
+          }
+
+        }
+      };
+
+      stage.addEventListener('click', function (ev) {
+        var data = {
+          order: parseInt(ev.target.dataset.order, 10),
+          group: parseInt(ev.target.dataset.group, 10),
+          text: ev.target.innerText,
+          target: ev.target
+        };
+        checkAndUpdate(data);
+      });
+
+      listenForMessage(function (data) {
+        document.getElementById('result').innerHTML += '<li> '+ data + '</li>';
+      });
+    }
+    init();
 
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

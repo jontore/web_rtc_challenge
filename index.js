@@ -1,7 +1,7 @@
 var crel = require('crel');
 var moment = require('moment');
 var messenger = require('rtc-switchboard-messenger');
-var signaller = require('rtc-signaller')(messenger('http://localhost:3000'));
+var signaller = require('rtc-signaller')(messenger('http://192.168.7.119:3000'));
 var friends = {};
 
 var messageList = document.getElementById('messageList');
